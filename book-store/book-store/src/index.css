@@ -1,0 +1,128 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9fafb;
+  color: #1f2937;
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+}
+
+/* Navbar */
+nav {
+  background: #2563eb; /* blue-600 */
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Page Container */
+div {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Headings */
+h1, h2 {
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+table th {
+  background: #e5e7eb;
+  padding: 10px;
+  text-align: left;
+}
+
+table td {
+  padding: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+table tr:hover {
+  background: #f3f4f6;
+}
+
+/* Buttons */
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #1e40af;
+}
+
+button[type="button"] {
+  background: #6b7280; /* gray */
+}
+
+button[type="button"]:hover {
+  background: #4b5563;
+}
+
+/* Inputs */
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input:focus, textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px #93c5fd;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  width: auto;
+  margin-left: 8px;
+}
+
+/* Form */
+form {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}

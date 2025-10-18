@@ -1,0 +1,58 @@
+{
+  "info": {
+    "_postman_id": "abcd-1234-efgh-5678",
+    "name": "Movie CRUD API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Single Movie",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "title", "value": "Movie 1", "type": "text" },
+            { "key": "description", "value": "First movie", "type": "text" },
+            { "key": "releaseDate", "value": "2025-10-07", "type": "text" },
+            { "key": "poster", "type": "file", "src": "" }
+          ]
+        },
+        "url": { "raw": "http://localhost:5000/api/movies/single", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api","movies","single"] }
+      }
+    },
+    {
+      "name": "Create Multiple Movies",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "movies", "value": "[{\"title\":\"Movie 2\",\"description\":\"Desc 2\",\"releaseDate\":\"2025-10-08\"},{\"title\":\"Movie 3\",\"description\":\"Desc 3\",\"releaseDate\":\"2025-10-09\"}]", "type": "text" },
+            { "key": "posters", "type": "file", "src": "" },
+            { "key": "posters", "type": "file", "src": "" }
+          ]
+        },
+        "url": { "raw": "http://localhost:5000/api/movies/multiple", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api","movies","multiple"] }
+      }
+    },
+    {
+      "name": "Get All Movies",
+      "request": { "method": "GET", "url": "http://localhost:5000/api/movies" }
+    },
+    {
+      "name": "Get Single Movie",
+      "request": { "method": "GET", "url": "http://localhost:5000/api/movies/:id" }
+    },
+    {
+      "name": "Update Movie",
+      "request": { "method": "PUT", "url": "http://localhost:5000/api/movies/:id" }
+    },
+    {
+      "name": "Delete Movie",
+      "request": { "method": "DELETE", "url": "http://localhost:5000/api/movies/:id" }
+    }
+  ]
+}
