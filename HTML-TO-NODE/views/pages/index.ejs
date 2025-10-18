@@ -1,0 +1,51 @@
+<%- include('../layout/header') %>
+
+<section class="hero container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <h1 class="display-5 fw-extrabold">Explore concise arr — learn faster.</h1>
+      <p class="lead text-muted mt-3">Curated explanations, code snippets and quick-read topics to help you build projects faster.</p>
+      <div class="mt-4">
+        <a href="#topics" class="btn btn-lg btn-primary rounded-pill me-2">Browse Topics</a>
+        <a href="/about" class="btn btn-lg btn-outline-secondary rounded-pill">How it works</a>
+      </div>
+    </div>
+    <div class="col-lg-5 d-none d-lg-block">
+      <div class="card-hero p-4 shadow-sm">
+        <h5 class="mb-3">Featured Topic</h5>
+        <% if (Array.isArray(arr) && arr.length) { %>
+          <div class="featured">
+            <h4 class="mb-1"><%= arr[0].title %></h4>
+            <p class="text-muted small mb-2"><%= arr[0].short %></p>
+            <a href="/topic/<%= arr[0].slug %>" class="stretched-link"></a>
+          </div>
+        <% } else { %>
+          <p class="text-muted">No arr yet. Add some!</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="arr" class="container py-4">
+  <div class="row g-3">
+    <% if (Array.isArray(arr)) { %>
+      <% arr.forEach(function(topic){ %>
+        <div class="col-md-6 col-lg-4">
+          <article class="card topic-card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title"><%= topic.title %></h5>
+              <p class="card-text text-muted flex-grow-1"><%= topic.short %></p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <small class="text-muted">By <%= topic.author || 'Author' %></small>
+                <a href="/topic/<%= topic.slug %>" class="btn btn-sm btn-outline-primary">Read</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../layout/footer') %>

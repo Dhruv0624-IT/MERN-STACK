@@ -1,0 +1,25 @@
+<%- include('../layout/header') %>
+
+<div class="container py-5">
+  <div class="card p-4 shadow-sm">
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <h2 class="mb-1"><%= topic.title %></h2>
+        <div class="meta text-muted mb-3">By <%= topic.author || 'Author' %> • <%= topic.date || '' %></div>
+      </div>
+      <div class="badge bg-primary rounded-pill px-3 py-2">Topic</div>
+    </div>
+
+    <hr>
+
+    <div class="topic-body">
+      <%- topic.details %>
+    </div>
+
+    <div class="mt-4">
+      <a href="/" class="btn btn-outline-secondary">⬅ Back</a>
+    </div>
+  </div>
+</div>
+
+<%- include('../layout/footer') %>

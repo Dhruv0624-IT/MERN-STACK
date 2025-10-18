@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources | WebLearner</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #eef2f7;
+    }
+    header {
+      background: #2575fc;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ffdd57;
+    }
+    main {
+      padding: 40px;
+      text-align: center;
+    }
+    .resources {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .resource-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      text-align: left;
+      transition: 0.2s;
+    }
+    .resource-card:hover {
+      transform: translateY(-8px);
+    }
+    .resource-card h3 {
+      margin: 0;
+      color: #2575fc;
+    }
+    .resource-card a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #2575fc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .resource-card a:hover {
+      color: #6a11cb;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Web-Learner</h2>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/resources">Resources</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Useful Learning Resources</h1>
+    <p>Here are some hand-picked resources to help you grow as a developer:</p>
+    <div class="resources">
+      <div class="resource-card">
+        <h3>MDN Web Docs</h3>
+        <p>The best documentation for HTML, CSS, and JavaScript.</p>
+        <a href="https://developer.mozilla.org/" target="_blank">Visit →</a>
+      </div>
+      <div class="resource-card">
+        <h3>freeCodeCamp</h3>
+        <p>Interactive coding lessons and projects for beginners.</p>
+        <a href="https://www.freecodecamp.org/" target="_blank">Visit →</a>
+      </div>
+      <div class="resource-card">
+        <h3>W3Schools</h3>
+        <p>Simple tutorials and reference for all web technologies.</p>
+        <a href="https://www.w3schools.com/" target="_blank">Visit →</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
