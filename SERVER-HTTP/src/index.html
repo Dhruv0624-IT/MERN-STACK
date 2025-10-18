@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | WebLearner</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+    }
+    header {
+      background: rgba(0,0,0,0.3);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ffdd57;
+    }
+    main {
+      padding: 50px;
+      text-align: center;
+    }
+    .card-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      color: #333;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      width: 260px;
+      padding: 20px;
+      transition: 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+    }
+    .card h3 {
+      color: #2575fc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>WebLearner</h2>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/resources">Resources</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Welcome to WebLearner</h1>
+    <p>Start your journey in web development with clear, practical learning paths.</p>
+    <div class="card-container">
+      <div class="card">
+        <h3>Frontend</h3>
+        <p>HTML, CSS, and JavaScript fundamentals to build amazing websites.</p>
+      </div>
+      <div class="card">
+        <h3>Backend</h3>
+        <p>Learn about servers, databases, and APIs to power your apps.</p>
+      </div>
+      <div class="card">
+        <h3>Full Stack</h3>
+        <p>Combine both worlds and become a versatile developer.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
