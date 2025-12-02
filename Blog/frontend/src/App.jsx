@@ -9,6 +9,10 @@ import EditPost from "./pages/EditPost";
 import PostDetails from "./pages/PostDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+<<<<<<< HEAD
+=======
+import VerifyOTP from "./pages/VerifyOTP";
+>>>>>>> bf97954 (updated Back-End Projects)
 
 import "./index.css"; // global styling
 
@@ -25,6 +29,10 @@ const App = () => {
             {/* Authentication routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+<<<<<<< HEAD
+=======
+            <Route path="/verify-otp" element={<VerifyOTP />} />
+>>>>>>> bf97954 (updated Back-End Projects)
 
             {/* Create new blog post */}
             <Route path="/create" element={<CreatePost />} />

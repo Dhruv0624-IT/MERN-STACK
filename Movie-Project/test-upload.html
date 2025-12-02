@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test Movie Upload</title>
+    <style>body{font-family:Arial;padding:2rem}label{display:block;margin-top:.5rem}</style>
+  </head>
+  <body>
+    <h1>Upload Movie Poster (Create)</h1>
+    <form id="createForm" action="/api/movies/single" method="post" enctype="multipart/form-data">
+      <label>Title <input name="title" required /></label>
+      <label>Description <textarea name="description"></textarea></label>
+      <label>Release Date <input name="releaseDate" type="date" /></label>
+      <label>Poster <input name="poster" type="file" accept="image/*" /></label>
+      <button type="submit">Create Movie</button>
+    </form>
+
+    <h2>Update Movie (PUT)</h2>
+    <form id="updateForm" action="/api/movies/" method="post" enctype="multipart/form-data">
+      <label>Movie ID <input id="movieId" name="id" /></label>
+      <label>Title <input name="title" /></label>
+      <label>Description <textarea name="description"></textarea></label>
+      <label>Release Date <input name="releaseDate" type="date" /></label>
+      <label>Poster <input name="poster" type="file" accept="image/*" /></label>
+      <button id="updateBtn" type="button">Update Movie</button>
+    </form>
+
+    <script>
+      document.getElementById('updateBtn').addEventListener('click', async () => {
+        const id = document.getElementById('movieId').value.trim();
+        if (!id) return alert('Enter movie id');
+        const form = document.getElementById('updateForm');
+        const fd = new FormData(form);
+        try {
+          const res = await fetch('/api/movies/' + id, { method: 'PUT', body: fd });
+          const json = await res.json();
+          alert(JSON.stringify(json, null, 2));
+        } catch (e) {
+          alert('Request failed: ' + e.message);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -22,6 +22,12 @@ app.use("/uploads", express.static("uploads"));
 
 app.use("/api/movies", movieRoutes);
 
+<<<<<<< HEAD
+=======
+// Simple health check
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
+>>>>>>> bf97954 (updated Back-End Projects)
 if (!process.env.MONGO_URI) {
   console.error("MONGO_URI is not set in environment (.env)");
   process.exit(1);
@@ -49,3 +55,7 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+<<<<<<< HEAD
+=======
+console.log('Uploads directory:', uploadsDirPath);
+>>>>>>> bf97954 (updated Back-End Projects)

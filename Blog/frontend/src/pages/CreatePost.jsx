@@ -36,6 +36,7 @@ const CreatePost = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container">
       <h2>Create New Post</h2>
       {error && <p className="error">{error}</p>}
@@ -57,6 +58,46 @@ const CreatePost = () => {
 
         <button type="submit" className="btn">Publish Post</button>
       </form>
+=======
+    <div className="container py-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-10 col-lg-8">
+          <div className="card shadow-sm">
+            <div className="card-body p-4">
+              <h3 className="mb-3">Create New Post</h3>
+              {error && <div className="alert alert-danger" role="alert">{error}</div>}
+              <form onSubmit={handleSubmit} className="vstack gap-3">
+                <div>
+                  <label className="form-label">Title</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Enter post title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="form-label">Content</label>
+                  <textarea
+                    className="form-control"
+                    rows="8"
+                    placeholder="Write your post content..."
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-primary">Publish Post</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+>>>>>>> bf97954 (updated Back-End Projects)
     </div>
   );
 };
