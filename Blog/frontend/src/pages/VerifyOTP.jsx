@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 import { ToastContext } from '../context/ToastContext';
@@ -8,70 +8,64 @@ const VerifyOTP = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
   const [countdown, setCountdown] = useState(60);
+  const otpRefs = useRef([]);
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useContext(ToastContext);
-  
-  // Get user email from location state or redirect back
+
   const { email, userId } = location.state || {};
-  
+
+  // Redirect back if no email/userId
   useEffect(() => {
-    if (!email || !userId) {
-      navigate('/register');
-    }
+    if (!email || !userId) navigate('/register');
   }, [email, userId, navigate]);
 
+  // Countdown timer for resend OTP
   useEffect(() => {
     let timer;
     if (resendDisabled && countdown > 0) {
-      timer = setInterval(() => {
-        setCountdown((prev) => prev - 1);
-      }, 1000);
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
     } else if (countdown === 0) {
       setResendDisabled(false);
       setCountdown(60);
     }
-    return () => clearInterval(timer);
+    return () => clearTimeout(timer);
   }, [resendDisabled, countdown]);
 
-  const handleOtpChange = (element, index) => {
-    if (isNaN(element.value)) return false;
-    
+  // Handle OTP input change
+  const handleOtpChange = (value, index) => {
+    if (isNaN(value)) return;
+
     const newOtp = [...otp];
-    newOtp[index] = element.value;
+    newOtp[index] = value;
     setOtp(newOtp);
-    
-    // Auto focus to next input
-    if (element.nextSibling && element.value !== '') {
-      element.nextSibling.focus();
+
+    if (value !== '' && index < 5) {
+      otpRefs.current[index + 1].focus();
     }
   };
 
+  // Handle backspace
   const handleKeyDown = (e, index) => {
-    if (e.key === 'Backspace' && !e.target.value && e.target.previousSibling) {
-      e.target.previousSibling.focus();
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      otpRefs.current[index - 1].focus();
     }
   };
 
+  // Verify OTP
   const handleVerify = async (e) => {
     e.preventDefault();
     const otpCode = otp.join('');
-    
     if (otpCode.length !== 6) {
       showToast('danger', 'Please enter a valid 6-digit OTP');
       return;
     }
-    
+
     try {
       setIsLoading(true);
       await api.post('/auth/verify-otp', { email, code: otpCode });
       showToast('success', 'Email verified successfully! Please login.');
-      navigate('/login', { 
-        state: { 
-          email,
-          message: 'Email verified successfully! Please login.'
-        } 
-      });
+      navigate('/login', { state: { email, message: 'Email verified successfully! Please login.' } });
     } catch (error) {
       console.error('OTP verification failed:', error);
       showToast('danger', error.response?.data?.message || 'Failed to verify OTP. Please try again.');
@@ -80,9 +74,11 @@ const VerifyOTP = () => {
     }
   };
 
+  // Resend OTP
   const handleResendOTP = async () => {
     try {
       setResendDisabled(true);
+      setCountdown(60);
       await api.post('/auth/request-otp', { email });
       showToast('info', 'New OTP sent to your email');
     } catch (error) {
@@ -92,9 +88,9 @@ const VerifyOTP = () => {
     }
   };
 
-  if (!email || !userId) {
-    return null; // or a loading spinner
-  }
+  if (!email || !userId) return null;
+
+  const isVerifyDisabled = otp.some((digit) => digit === '');
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -119,50 +115,39 @@ const VerifyOTP = () => {
                   <input
                     key={index}
                     type="text"
-                    maxLength="1"
+                    inputMode="numeric"
+                    maxLength={1}
                     value={data}
-                    onChange={(e) => handleOtpChange(e.target, index)}
+                    onChange={(e) => handleOtpChange(e.target.value, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
+                    ref={(el) => (otpRefs.current[index] = el)}
                     className="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    aria-label={`Digit ${index + 1}`}
                     autoFocus={index === 0}
                   />
                 ))}
               </div>
             </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                {isLoading ? 'Verifying...' : 'Verify Email'}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={isLoading || isVerifyDisabled}
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${isLoading || isVerifyDisabled ? 'opacity-70 cursor-not-allowed' : ''}`}
+            >
+              {isLoading ? 'Verifying...' : 'Verify Email'}
+            </button>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  Didn't receive the code?
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <button
-                type="button"
-                onClick={handleResendOTP}
-                disabled={resendDisabled}
-                className={`w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${resendDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {resendDisabled ? `Resend OTP in ${countdown}s` : 'Resend OTP'}
-              </button>
-            </div>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-500">Didn't receive the code?</p>
+            <button
+              type="button"
+              onClick={handleResendOTP}
+              disabled={resendDisabled}
+              className={`mt-2 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${resendDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {resendDisabled ? `Resend OTP in ${countdown}s` : 'Resend OTP'}
+            </button>
           </div>
         </div>
       </div>

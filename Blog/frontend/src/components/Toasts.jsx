@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ToastContext } from "../context/ToastContext";
 
 const variantClass = (v) => {
@@ -13,13 +13,37 @@ const variantClass = (v) => {
 
 const Toasts = () => {
   const { toasts, remove } = useContext(ToastContext);
+
+  // Auto-dismiss effect
+  useEffect(() => {
+    const timers = toasts.map(t => 
+      setTimeout(() => remove(t.id), t.duration || 3000)
+    );
+
+    return () => timers.forEach(timer => clearTimeout(timer));
+  }, [toasts, remove]);
+
   return (
-    <div className="toast-container position-fixed top-0 end-0 p-3" style={{ zIndex: 1080 }}>
+    <div
+      className="toast-container position-fixed top-0 end-0 p-3"
+      style={{ zIndex: 1080 }}
+    >
       {toasts.map(t => (
-        <div key={t.id} className={`toast align-items-center show ${variantClass(t.variant)}`} role="alert">
+        <div
+          key={t.id}
+          className={`toast align-items-center fade show ${variantClass(t.variant)}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
           <div className="d-flex">
             <div className="toast-body">{t.message}</div>
-            <button type="button" className="btn-close btn-close-white me-2 m-auto" aria-label="Close" onClick={() => remove(t.id)}></button>
+            <button
+              type="button"
+              className="btn-close btn-close-white me-2 m-auto"
+              aria-label="Close"
+              onClick={() => remove(t.id)}
+            ></button>
           </div>
         </div>
       ))}

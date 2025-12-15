@@ -5,7 +5,6 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Image upload setup
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
   filename: (req, file, cb) =>
@@ -13,7 +12,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Create Post
 router.post("/", protect, upload.single("image"), async (req, res) => {
   try {
     const post = await Post.create({
@@ -28,19 +26,16 @@ router.post("/", protect, upload.single("image"), async (req, res) => {
   }
 });
 
-// Get all posts
 router.get("/", async (req, res) => {
   const posts = await Post.find().populate("author", "username").sort({ createdAt: -1 });
   res.json(posts);
 });
 
-// Get single post
 router.get("/:id", async (req, res) => {
   const post = await Post.findById(req.params.id).populate("author", "username");
   res.json(post);
 });
 
-// Update post
 router.put("/:id", protect, upload.single("image"), async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (!post) return res.status(404).json({ message: "Post not found" });
@@ -54,7 +49,6 @@ router.put("/:id", protect, upload.single("image"), async (req, res) => {
   res.json(updated);
 });
 
-// Delete post
 router.delete("/:id", protect, async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (!post) return res.status(404).json({ message: "Post not found" });

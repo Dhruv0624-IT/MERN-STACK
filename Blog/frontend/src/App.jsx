@@ -1,20 +1,32 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { Suspense, useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { AuthContext } from "./context/AuthContext";
+import "./index.css";
 
-// Pages
-import Home from "./pages/Home";
-import CreatePost from "./pages/CreatePost";
-import EditPost from "./pages/EditPost";
-import PostDetails from "./pages/PostDetails";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-<<<<<<< HEAD
-=======
-import VerifyOTP from "./pages/VerifyOTP";
->>>>>>> bf97954 (updated Back-End Projects)
+// Lazy-loaded pages
+const Home = React.lazy(() => import("./pages/Home"));
+const CreatePost = React.lazy(() => import("./pages/CreatePost"));
+const EditPost = React.lazy(() => import("./pages/EditPost"));
+const PostDetails = React.lazy(() => import("./pages/PostDetails"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Register = React.lazy(() => import("./pages/Register"));
+const VerifyOTP = React.lazy(() => import("./pages/VerifyOTP"));
 
-import "./index.css"; // global styling
+// Loader component
+const Loader = () => (
+  <div className="container py-5 text-center">
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+  </div>
+);
+
+// Protected Route wrapper
+const PrivateRoute = ({ children }) => {
+  const { user } = useContext(AuthContext);
+  return user ? children : <Navigate to="/login" replace />;
+};
 
 const App = () => {
   return (
@@ -22,38 +34,45 @@ const App = () => {
       <div className="app">
         <Navbar />
         <div className="page-container">
-          <Routes>
-            {/* Homepage - list of all blog posts */}
-            <Route path="/" element={<Home />} />
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/verify-otp" element={<VerifyOTP />} />
+              <Route path="/posts/:id" element={<PostDetails />} />
 
-            {/* Authentication routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-<<<<<<< HEAD
-=======
-            <Route path="/verify-otp" element={<VerifyOTP />} />
->>>>>>> bf97954 (updated Back-End Projects)
+              {/* Protected routes */}
+              <Route
+                path="/create"
+                element={
+                  <PrivateRoute>
+                    <CreatePost />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/edit/:id"
+                element={
+                  <PrivateRoute>
+                    <EditPost />
+                  </PrivateRoute>
+                }
+              />
 
-            {/* Create new blog post */}
-            <Route path="/create" element={<CreatePost />} />
-
-            {/* View single post */}
-            <Route path="/posts/:id" element={<PostDetails />} />
-
-            {/* Edit existing post */}
-            <Route path="/edit/:id" element={<EditPost />} />
-
-            {/* Fallback route */}
-            <Route
-              path="*"
-              element={
-                <div className="container">
-                  <h2>404 - Page Not Found</h2>
-                  <p>The page you're looking for doesn't exist.</p>
-                </div>
-              }
-            />
-          </Routes>
+              {/* Fallback 404 route */}
+              <Route
+                path="*"
+                element={
+                  <div className="container py-5">
+                    <h2>404 - Page Not Found</h2>
+                    <p>The page you're looking for doesn't exist.</p>
+                  </div>
+                }
+              />
+            </Routes>
+          </Suspense>
         </div>
       </div>
     </Router>
